@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 /**
- * 启动缓存功能
+ * 启动缓存支持
  */
 @EnableCaching
 @MapperScan("com.niu.springbootcache.mapper")

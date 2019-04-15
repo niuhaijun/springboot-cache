@@ -26,11 +26,42 @@
 
     <!--
     spring cache依赖
+    在0配置的情况下，默认使用SimpleCacheConfiguration，即使用ConcurrentMapCacheManager
     -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
     </dependency>
+
+    <!--
+    缓存技术
+      ehcache
+      添加依赖，并将ehcache的配置文件ehcache.xml放置在类路径下，
+      spring boot会自动扫描，并自动配置EhCacheManager的bean
+
+      guava
+      添加依赖，spring boot会自动配置GuavaCacheManager的bean
+
+      redis
+      添加依赖，spring boot会自动配置RedisCacheManager,RedisTemplate的bean
+    -->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>18.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+
+
+
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
