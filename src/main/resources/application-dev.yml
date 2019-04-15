@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    name: spring_boot_mybatis
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/spring_boot_cache?useSSL=FALSE&allowMultiQueries=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: '!@#$1234Abcd'
+    tomcat:
+      max-wait: 10000
+      max-active: 300
+      test-on-borrow: true
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: mapper
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.niu.springbootcache.model
+  cache-enabled: true
+  default-statement-timeout: 10000
+  map-underscore-to-camel-case: true
+  use-generated-keys: true
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+logging:
+  level:
+    com.niu.springbootcache.mapper: debug
