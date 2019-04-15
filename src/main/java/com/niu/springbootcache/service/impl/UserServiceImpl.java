@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
+@CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
 
   @Autowired
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
   @Caching(
       evict = {
-          @CacheEvict(value = "user", key = "#userPara.age()", beforeInvocation = true, allEntries = true)})
+          @CacheEvict(key = "#userPara.age()", beforeInvocation = true)})
   public Integer add(UserPara userPara) {
 
     Date date = new Date();
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @CacheEvict(value = "user", allEntries = true)
+  @CacheEvict(allEntries = true)
   public Integer update(UserPara userPara) {
 
     userPara.setUpdateTime(new Date());
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @CacheEvict(value = "user", allEntries = true)
+  @CacheEvict(allEntries = true)
   public Integer delete(UserPara userPara) {
 
     return userMapper.deleteByPrimaryKey(userPara.getUuid());
