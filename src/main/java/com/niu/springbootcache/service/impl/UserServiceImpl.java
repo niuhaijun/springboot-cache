@@ -7,10 +7,10 @@ import com.niu.springbootcache.mapper.UserMapper;
 import com.niu.springbootcache.model.User;
 import com.niu.springbootcache.model.UserExample;
 import com.niu.springbootcache.service.UserService;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper userMapper;
 
-	@SneakyThrows
 	@Override
 	@Caching(
 		evict = {
@@ -43,18 +42,27 @@ public class UserServiceImpl implements UserService {
 		userPara.setUpdateTime(date);
 
 		User user = new User();
-		BeanUtils.copyProperties(userPara, user);
+		try {
+			BeanUtils.copyProperties(userPara, user);
+		}
+		catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 		return userMapper.insertSelective(user);
 	}
 
-	@SneakyThrows
 	@Override
 	@CacheEvict(allEntries = true)
 	public Integer update(UserPara userPara) {
 
 		userPara.setUpdateTime(new Date());
 		User user = new User();
-		BeanUtils.copyProperties(userPara, user);
+		try {
+			BeanUtils.copyProperties(userPara, user);
+		}
+		catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 
 		UserExample example = new UserExample();
 		example.createCriteria().andUuidEqualTo(userPara.getUuid());
@@ -68,7 +76,6 @@ public class UserServiceImpl implements UserService {
 		return userMapper.deleteByPrimaryKey(userPara.getUuid());
 	}
 
-	@SneakyThrows
 	@Override
 	@Cacheable(value = "user", key = "#userPara.age")
 	public List<UserVO> select(UserPara userPara) {
@@ -81,7 +88,12 @@ public class UserServiceImpl implements UserService {
 		List<UserVO> result = new ArrayList<>(userList.size());
 		userList.forEach(t -> {
 			UserVO userVO = new UserVO();
-			BeanUtils.copyProperties(t, userVO);
+			try {
+				BeanUtils.copyProperties(t, userVO);
+			}
+			catch (IllegalAccessException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
 			result.add(userVO);
 		});
 
