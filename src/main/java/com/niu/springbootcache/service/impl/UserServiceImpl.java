@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -25,7 +26,8 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-@CacheConfig(cacheNames = "user")
+@Slf4j
+@CacheConfig(cacheNames = "users", keyGenerator = "customCacheKeyGenerator")
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -77,22 +79,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Cacheable(value = "user", key = "#userPara.age")
+//	@Cacheable(value = "users", key = "#userPara.age")
+	@Cacheable(value = "users", keyGenerator = "customCacheKeyGenerator")
 	public List<UserVO> select(UserPara userPara) {
 
 		UserExample example = new UserExample();
-		example.setOrderByClause("update_time desc");
-		example.createCriteria().andAgeLessThan(userPara.getAge());
+		example.createCriteria()
+			.andAgeLessThan(userPara.getAge());
+
+		try {
+			Thread.currentThread().sleep(1000);
+		}
+		catch (InterruptedException e) {
+			log.error("error", e);
+		}
 
 		List<User> userList = userMapper.selectByExample(example);
 		List<UserVO> result = new ArrayList<>(userList.size());
 		userList.forEach(t -> {
 			UserVO userVO = new UserVO();
 			try {
-				BeanUtils.copyProperties(t, userVO);
+				BeanUtils.copyProperties(userVO, t);
 			}
 			catch (IllegalAccessException | InvocationTargetException e) {
-				e.printStackTrace();
+				log.error("error", e);
 			}
 			result.add(userVO);
 		});
