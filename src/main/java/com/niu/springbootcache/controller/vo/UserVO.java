@@ -15,17 +15,17 @@ import lombok.Data;
 @JsonInclude(value = NON_NULL)
 public class UserVO {
 
-  private String uuid;
+	private String uuid;
 
-  private String username;
+	private String username;
 
-  private String password;
+	private String password;
 
-  private Integer age;
+	private Integer age;
 
-  private Integer sex;
+	private Integer sex;
 
-  private Date createTime;
+	private Date createTime;
 
-  private Date updateTime;
+	private Date updateTime;
 }

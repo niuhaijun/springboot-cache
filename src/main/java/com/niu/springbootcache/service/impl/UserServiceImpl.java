@@ -10,7 +10,8 @@ import com.niu.springbootcache.service.UserService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.springframework.beans.BeanUtils;
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -27,62 +28,64 @@ import org.springframework.stereotype.Service;
 @CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
 
-  @Autowired
-  private UserMapper userMapper;
+	@Autowired
+	private UserMapper userMapper;
 
-  @Override
+	@SneakyThrows
+	@Override
+	@Caching(
+		evict = {
+			@CacheEvict(key = "#userPara.age()", beforeInvocation = true)})
+	public Integer add(UserPara userPara) {
 
-  @Caching(
-      evict = {
-          @CacheEvict(key = "#userPara.age()", beforeInvocation = true)})
-  public Integer add(UserPara userPara) {
+		Date date = new Date();
+		userPara.setCreateTime(date);
+		userPara.setUpdateTime(date);
 
-    Date date = new Date();
-    userPara.setCreateTime(date);
-    userPara.setUpdateTime(date);
+		User user = new User();
+		BeanUtils.copyProperties(userPara, user);
+		return userMapper.insertSelective(user);
+	}
 
-    User user = new User();
-    BeanUtils.copyProperties(userPara, user);
-    return userMapper.insertSelective(user);
-  }
+	@SneakyThrows
+	@Override
+	@CacheEvict(allEntries = true)
+	public Integer update(UserPara userPara) {
 
-  @Override
-  @CacheEvict(allEntries = true)
-  public Integer update(UserPara userPara) {
+		userPara.setUpdateTime(new Date());
+		User user = new User();
+		BeanUtils.copyProperties(userPara, user);
 
-    userPara.setUpdateTime(new Date());
-    User user = new User();
-    BeanUtils.copyProperties(userPara, user);
+		UserExample example = new UserExample();
+		example.createCriteria().andUuidEqualTo(userPara.getUuid());
+		return userMapper.updateByExampleSelective(user, example);
+	}
 
-    UserExample example = new UserExample();
-    example.createCriteria().andUuidEqualTo(userPara.getUuid());
-    return userMapper.updateByExampleSelective(user, example);
-  }
+	@Override
+	@CacheEvict(allEntries = true)
+	public Integer delete(UserPara userPara) {
 
-  @Override
-  @CacheEvict(allEntries = true)
-  public Integer delete(UserPara userPara) {
+		return userMapper.deleteByPrimaryKey(userPara.getUuid());
+	}
 
-    return userMapper.deleteByPrimaryKey(userPara.getUuid());
-  }
+	@SneakyThrows
+	@Override
+	@Cacheable(value = "user", key = "#userPara.age")
+	public List<UserVO> select(UserPara userPara) {
 
-  @Override
-  @Cacheable(value = "user", key = "#userPara.age")
-  public List<UserVO> select(UserPara userPara) {
+		UserExample example = new UserExample();
+		example.setOrderByClause("update_time desc");
+		example.createCriteria().andAgeLessThan(userPara.getAge());
 
-    UserExample example = new UserExample();
-    example.setOrderByClause("update_time desc");
-    example.createCriteria().andAgeLessThan(userPara.getAge());
+		List<User> userList = userMapper.selectByExample(example);
+		List<UserVO> result = new ArrayList<>(userList.size());
+		userList.forEach(t -> {
+			UserVO userVO = new UserVO();
+			BeanUtils.copyProperties(t, userVO);
+			result.add(userVO);
+		});
 
-    List<User> userList = userMapper.selectByExample(example);
-    List<UserVO> result = new ArrayList<>(userList.size());
-    userList.forEach(t -> {
-      UserVO userVO = new UserVO();
-      BeanUtils.copyProperties(t, userVO);
-      result.add(userVO);
-    });
-
-    return result;
-  }
+		return result;
+	}
 
 }

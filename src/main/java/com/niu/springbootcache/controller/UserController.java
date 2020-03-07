@@ -19,31 +19,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-  @Autowired
-  private UserService userService;
+	@Autowired
+	private UserService userService;
 
-  @RequestMapping("/add")
-  public Integer add(UserPara userPara) {
+	@RequestMapping("/add")
+	public Integer add(UserPara userPara) {
 
-    userPara.setUuid(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
-    return userService.add(userPara);
-  }
+		userPara.setUuid(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+		return userService.add(userPara);
+	}
 
-  @RequestMapping("/update")
-  public Integer update(UserPara userPara) {
+	@RequestMapping("/update")
+	public Integer update(UserPara userPara) {
 
-    return userService.update(userPara);
-  }
+		return userService.update(userPara);
+	}
 
-  @RequestMapping("/delete")
-  public Integer delete(UserPara userPara) {
+	@RequestMapping("/delete")
+	public Integer delete(UserPara userPara) {
 
-    return userService.delete(userPara);
-  }
+		return userService.delete(userPara);
+	}
 
-  @RequestMapping("/select")
-  public List<UserVO> select(UserPara userPara) {
+	@RequestMapping("/select")
+	public List<UserVO> select(UserPara userPara) {
 
-    return userService.select(userPara);
-  }
+		return userService.select(userPara);
+	}
 }

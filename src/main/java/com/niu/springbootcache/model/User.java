@@ -4,117 +4,130 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class User implements Serializable {
-    private String uuid;
 
-    private String username;
+	private static final long serialVersionUID = 1L;
+	private String uuid;
+	private String username;
+	private String password;
+	private Integer age;
+	private Integer sex;
+	private Date createTime;
+	private Date updateTime;
+	private String updateSql;
 
-    private String password;
+	public User(String uuid, String username, String password, Integer age, Integer sex,
+		Date createTime, Date updateTime) {
 
-    private Integer age;
+		this.uuid = uuid;
+		this.username = username;
+		this.password = password;
+		this.age = age;
+		this.sex = sex;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+	}
 
-    private Integer sex;
+	public User() {
 
-    private Date createTime;
+		super();
+	}
 
-    private Date updateTime;
+	public String getUuid() {
 
-    private static final long serialVersionUID = 1L;
+		return uuid;
+	}
 
-    private String updateSql;
+	public void setUuid(String uuid) {
 
-    public User(String uuid, String username, String password, Integer age, Integer sex, Date createTime, Date updateTime) {
-        this.uuid = uuid;
-        this.username = username;
-        this.password = password;
-        this.age = age;
-        this.sex = sex;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
+		this.uuid = uuid == null ? null : uuid.trim();
+	}
 
-    public User() {
-        super();
-    }
+	public String getUsername() {
 
-    public String getUuid() {
-        return uuid;
-    }
+		return username;
+	}
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid == null ? null : uuid.trim();
-    }
+	public void setUsername(String username) {
 
-    public String getUsername() {
-        return username;
-    }
+		this.username = username == null ? null : username.trim();
+	}
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
+	public String getPassword() {
 
-    public String getPassword() {
-        return password;
-    }
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+	public void setPassword(String password) {
 
-    public Integer getAge() {
-        return age;
-    }
+		this.password = password == null ? null : password.trim();
+	}
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+	public Integer getAge() {
 
-    public Integer getSex() {
-        return sex;
-    }
+		return age;
+	}
 
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
+	public void setAge(Integer age) {
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+		this.age = age;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public Integer getSex() {
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+		return sex;
+	}
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setSex(Integer sex) {
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", uuid=").append(uuid);
-        sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", age=").append(age);
-        sb.append(", sex=").append(sex);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+		this.sex = sex;
+	}
 
-    public String getUpdateSql() {
-        return this.updateSql;
-    }
+	public Date getCreateTime() {
 
-    public void setUpdateSql(String updateSql) {
-        this.updateSql = updateSql;
-    }
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+
+		this.updateTime = updateTime;
+	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(getClass().getSimpleName());
+		sb.append(" [");
+		sb.append("Hash = ").append(hashCode());
+		sb.append(", uuid=").append(uuid);
+		sb.append(", username=").append(username);
+		sb.append(", password=").append(password);
+		sb.append(", age=").append(age);
+		sb.append(", sex=").append(sex);
+		sb.append(", createTime=").append(createTime);
+		sb.append(", updateTime=").append(updateTime);
+		sb.append(", serialVersionUID=").append(serialVersionUID);
+		sb.append("]");
+		return sb.toString();
+	}
+
+	public String getUpdateSql() {
+
+		return this.updateSql;
+	}
+
+	public void setUpdateSql(String updateSql) {
+
+		this.updateSql = updateSql;
+	}
 }

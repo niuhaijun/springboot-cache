@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserService {
 
-  Integer add(UserPara userPara);
+	Integer add(UserPara userPara);
 
-  Integer update(UserPara userPara);
+	Integer update(UserPara userPara);
 
-  Integer delete(UserPara userPara);
+	Integer delete(UserPara userPara);
 
-  List<UserVO> select(UserPara userPara);
+	List<UserVO> select(UserPara userPara);
 }
