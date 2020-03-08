@@ -7,6 +7,7 @@ import com.niu.springbootcache.service.UserService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +43,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/select")
+	@Cacheable(value = "users", keyGenerator = "customCacheKeyGenerator")
 	public List<UserVO> select(UserPara userPara) {
 
 		return userService.select(userPara);

@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 //	@Cacheable(value = "users", key = "#userPara.age")
-	@Cacheable(value = "users", keyGenerator = "customCacheKeyGenerator")
+//	@Cacheable(value = "users", keyGenerator = "customCacheKeyGenerator")
 	public List<UserVO> select(UserPara userPara) {
 
 		UserExample example = new UserExample();
