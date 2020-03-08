@@ -1,6 +1,7 @@
 ## 参考链接
 - [Spring Cache Redis 修改序列化方式](https://www.cnblogs.com/niugang0920/p/12186495.html)
-- [spring-cache -KeyGenerator自定义](https://www.jianshu.com/p/6ba2d2dbf36e)
+- [Spring Cache Key Generator 自定义](https://www.jianshu.com/p/6ba2d2dbf36e)
+- [Spring Cache 反序列化失败](https://www.cnblogs.com/cndou/p/11662329.html)
 ---
 
 ## spring cache注解
