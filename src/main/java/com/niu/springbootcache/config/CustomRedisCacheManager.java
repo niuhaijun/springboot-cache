@@ -36,13 +36,8 @@ public class CustomRedisCacheManager extends CachingConfigurerSupport {
 	@Bean
 	public RedisCacheConfiguration redisCacheConfiguration() {
 
-//		// value的序列化与反序列化
-//		Jackson2JsonRedisSerializer<Object> serializer =
-//			new Jackson2JsonRedisSerializer<>(Object.class);
-//
-
-		Jackson2JsonRedisSerializer<Object> serializer =
-			new Jackson2JsonRedisSerializer<>(Object.class);
+		// value的序列化与反序列化
+		Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 		objectMapper.configure(MapperFeature.USE_ANNOTATIONS, false);
